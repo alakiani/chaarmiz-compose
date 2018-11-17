@@ -59,13 +59,13 @@ services:
       - LETSENCRYPT_HOST=git.chaarmiz.com
 
   registry:
-    - image: 'registry'
-    - restart: always
-    - expose: '5000'
-    - ports: 
-        - '5000:5000'
-    - volumes:
-        - './gitlab/shared/registry:/registry'
-        - './certs:/certs'
-    - environment:
-	- REGISTRY_LOG_LEVEL=info
+    image: 'registry'
+    restart: always
+    expose: '5000'
+    ports: 
+      - '5000:5000'
+    volumes:
+      - './gitlab/shared/registry:/registry'
+      - './certs:/certs'
+    environment:
+      - REGISTRY_LOG_LEVEL=info
