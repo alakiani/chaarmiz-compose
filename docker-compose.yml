@@ -1,0 +1,71 @@
+version: "2"
+
+services:
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - ./certs:/etc/nginx/certs:ro
+
+  ssl-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: ssl-companion
+    volumes:
+      - ./certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - proxy
+    depends_on:
+      - proxy
+    environment:
+      - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
+
+  adminPanel:
+    image: nginx
+    container_name: adminPanel
+    volumes:
+      - /docker/adminPanel/html:/usr/share/nginx/html
+    environment:
+      - VIRTUAL_HOST= admin.chaarmiz.com
+      - LETSENCRYPT_HOST=admin.chaarmiz.com
+      - LETSENCRYPT_EMAIL=ala@chaarmiz.com
+
+  website:
+    image: nginx
+    container_name: website
+    volumes:
+      - /docker/website/html:/usr/share/nginx/html
+    environment:
+      - VIRTUAL_HOST= chaarmiz.com,www.chaarmiz.com
+      - LETSENCRYPT_HOST=chaarmiz.com
+      - LETSENCRYPT_EMAIL=ala@chaarmiz.com
+
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    hostname: 'git.chaarmiz.com'
+    restart: always
+    volumes:
+      - '/srv/gitlab/config:/etc/gitlab'
+      - '/srv/gitlab/logs:/var/log/gitlab'
+      - '/srv/gitlab/data:/var/opt/gitlab'
+    environment:
+      - VIRTUAL_HOST=git.chaarmiz.com
+      - LETSENCRYPT_HOST=git.chaarmiz.com
+
+  registry:
+    - image: 'registry'
+    - restart: always
+    - expose: '5000'
+    - ports: 
+        - '5000:5000'
+    - volumes:
+        - './gitlab/shared/registry:/registry'
+        - './certs:/certs'
+    - environment:
+	- REGISTRY_LOG_LEVEL=info
