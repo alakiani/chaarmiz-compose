@@ -49,17 +49,17 @@ services:
   gitlab:
      image: 'gitlab/gitlab-ce:latest'
      ports:
-        - '22'
-        - '80'
+       - '22'
+       - '80'
      environment:
-        GITLAB_OMNIBUS_CONFIG: |
+       - GITLAB_OMNIBUS_CONFIG: |
           external_url 'https://git.chaarmiz.com'
           registry_external_url 'http://registry.chaarmiz.com'
           nginx['listen_port'] = 80
           nginx['listen_https'] = false
           nginx['proxy_set_headers'] = { 'X-Forwarded-Proto' => 'https', 'X-Forwarded-Ssl' => 'on' }
-        VIRTUAL_HOST: git.chaarmiz.com,registry.chaarmiz.com
-        VIRTUAL_PORT: 80
-        LETSENCRYPT_EMAIL: info@example.com
-        LETSENCRYPT_HOST: git.chaarmiz.com,registry.chaarmiz.com
-        CERT_NAME: git.chaarmiz.com
+       - VIRTUAL_HOST: git.chaarmiz.com,registry.chaarmiz.com
+       - VIRTUAL_PORT: 80
+       - LETSENCRYPT_EMAIL: info@example.com
+       - LETSENCRYPT_HOST: git.chaarmiz.com,registry.chaarmiz.com
+       - CERT_NAME: git.chaarmiz.com
