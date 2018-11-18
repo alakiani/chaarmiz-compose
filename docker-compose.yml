@@ -63,5 +63,5 @@ services:
        LETSENCRYPT_HOST: git.chaarmiz.com,registry.chaarmiz.com
        CERT_NAME: git.chaarmiz.com
   
-  volumes:
-    vhostd:
+volumes:
+  vhostd:
