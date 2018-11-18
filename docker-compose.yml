@@ -48,7 +48,7 @@ services:
 
   gitlab:
      image: 'gitlab/gitlab-ce:latest'
-      ports:
+     ports:
         - '22'
         - '80'
      environment:
