@@ -1,4 +1,4 @@
-version: "2"
+version: "3.4"
 
 services:
   proxy:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - proxy
     environment:
-      - ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory
+      - ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
 
   adminPanel:
     image: nginx
@@ -32,9 +32,9 @@ services:
     volumes:
       - /docker/adminPanel/html:/usr/share/nginx/html
     environment:
-      - VIRTUAL_HOST= admin.chaarmiz.com
-      - LETSENCRYPT_HOST=admin.chaarmiz.com
-      - LETSENCRYPT_EMAIL=ala@chaarmiz.com
+      - VIRTUAL_HOST: admin.chaarmiz.com
+      - LETSENCRYPT_HOST: admin.chaarmiz.com
+      - LETSENCRYPT_EMAIL: ala@chaarmiz.com
 
   website:
     image: nginx
@@ -42,9 +42,9 @@ services:
     volumes:
       - /docker/website/html:/usr/share/nginx/html
     environment:
-      - VIRTUAL_HOST= chaarmiz.com,www.chaarmiz.com
-      - LETSENCRYPT_HOST=chaarmiz.com
-      - LETSENCRYPT_EMAIL=ala@chaarmiz.com
+      - VIRTUAL_HOST: chaarmiz.com,www.chaarmiz.com
+      - LETSENCRYPT_HOST: chaarmiz.com
+      - LETSENCRYPT_EMAIL: ala@chaarmiz.com
 
   gitlab:
      image: 'gitlab/gitlab-ce:latest'
