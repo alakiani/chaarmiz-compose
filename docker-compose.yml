@@ -11,6 +11,8 @@ services:
       - vhostd:/etc/nginx/vhost.d
       - /usr/share/nginx/html
       - ./certs:/etc/nginx/certs:ro
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
 
   ssl-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -22,7 +24,6 @@ services:
       - proxy
     environment:
       ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
-      NGINX_PROXY_CONTAINER: proxy
 
   adminPanel:
     image: nginx
