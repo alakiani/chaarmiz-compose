@@ -9,7 +9,7 @@ services:
       - '443:443'
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - vhostd:/etc/nginx/vhost.d
+      - "vhostd:/etc/nginx/vhost.d"
       - /usr/share/nginx/html
       - ./certs:/etc/nginx/certs:ro
 
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - vhostd:/etc/nginx/vhost.d
+      - "vhostd:/etc/nginx/vhost.d"
     depends_on:
       - proxy
     environment:
