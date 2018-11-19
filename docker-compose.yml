@@ -22,6 +22,7 @@ services:
       - proxy
     environment:
       ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
+      NGINX_PROXY_CONTAINER: proxy
 
   adminPanel:
     image: nginx
