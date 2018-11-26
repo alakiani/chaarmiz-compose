@@ -24,8 +24,8 @@ services:
 
     depends_on:
       - proxy
-    environment:
-      ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
+    #environment:
+      #ACME_CA_URI: https://acme-staging.api.letsencrypt.org/directory
 
   adminPanel:
     image: nginx
@@ -35,6 +35,16 @@ services:
     environment:
       VIRTUAL_HOST: admin.chaarmiz.com
       LETSENCRYPT_HOST: admin.chaarmiz.com
+      LETSENCRYPT_EMAIL: ala@chaarmiz.com
+
+  kianDigital:
+    image: nginx
+    container_name: kianDigital
+    volumes:
+      - /docker/kiandigital/html:/usr/share/nginx/html
+    environment:
+      VIRTUAL_HOST: kiandigital.chaarmiz.com
+      LETSENCRYPT_HOST: kiandigital.chaarmiz.com
       LETSENCRYPT_EMAIL: ala@chaarmiz.com
 
   website:
@@ -49,6 +59,7 @@ services:
 
   gitlab:
      image: 'gitlab/gitlab-ce:latest'
+     hostname: 'git.chaarmiz.com'
      ports:
        - '22'
        - '80'
